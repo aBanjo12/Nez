@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Nez.BitmapFonts;
 using Microsoft.Xna.Framework.Graphics;
+using Nez.PhysicsShapes;
 
 
 namespace Nez
@@ -15,8 +16,11 @@ namespace Nez
 			Pixel,
 			BitmapFontText,
 			SpriteFontText,
-			ConsoleText
+			ConsoleText,
+			Circle
 		}
+		// used for Circles
+		public Circle Circle;
 
 		// used for Line items
 		public Vector2 Start;
@@ -107,6 +111,13 @@ namespace Nez
 			drawType = DebugDrawType.ConsoleText;
 		}
 
+		public DebugDrawItem(Circle circle, Color color, float duration)
+		{
+			Circle = circle;
+			Color = color;
+			Duration = duration;
+		}
+
 
 		/// <summary>
 		/// returns true if we are done with this debug draw item
@@ -135,6 +146,9 @@ namespace Nez
 				case DebugDrawType.ConsoleText:
 					batcher.DrawString(BitmapFont, Text, Position, Color, 0f, Vector2.Zero, Scale,
 						SpriteEffects.None, 0f);
+					break;
+				case DebugDrawType.Circle:
+					batcher.DrawCircle(Circle.position, Circle.Radius, Color);
 					break;
 			}
 

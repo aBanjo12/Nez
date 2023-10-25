@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Nez.BitmapFonts;
 using System.Diagnostics;
+using Nez.PhysicsShapes;
 
 namespace Nez
 {
@@ -147,6 +148,18 @@ namespace Nez
 				return;
 
 			_screenSpaceDebugDrawItems.Add(new DebugDrawItem(text, color, duration, scale));
+		}
+		
+		[Conditional("DEBUG")]
+		public static void DrawCircle(Circle circle, Color color, float duration = 0f)
+		{
+			if (!Core.DebugRenderEnabled)
+				return;
+			DebugDrawItem item = new DebugDrawItem(circle, color, duration);
+			item.drawType = DebugDrawItem.DebugDrawType.Circle;
+
+			_debugDrawItems.Add(item);
+			
 		}
 	}
 }
