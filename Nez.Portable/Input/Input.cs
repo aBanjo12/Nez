@@ -75,7 +75,7 @@ namespace Nez
 			_previousMouseState = new MouseState();
 			_currentMouseState = Mouse.GetState();
 
-			MaxSupportedGamePads = 1;
+			MaxSupportedGamePads = 4;
 		}
 
 

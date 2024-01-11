@@ -18,31 +18,31 @@ namespace Nez
 
 		public GamePadDeadZone DeadZone = GamePadDeadZone.IndependentAxes;
 
-		PlayerIndex _playerIndex;
+		public PlayerIndex PlayerIndex;
 		GamePadState _previousState;
 		GamePadState _currentState;
 		float _rumbleTime;
 
 
-		internal GamePadData(PlayerIndex playerIndex)
+		public GamePadData(PlayerIndex playerIndex)
 		{
-			_playerIndex = playerIndex;
+			PlayerIndex = playerIndex;
 			_previousState = new GamePadState();
-			_currentState = GamePad.GetState(_playerIndex);
+			_currentState = GamePad.GetState(PlayerIndex);
 		}
 
 
 		public void Update()
 		{
 			_previousState = _currentState;
-			_currentState = GamePad.GetState(_playerIndex, DeadZone);
+			_currentState = GamePad.GetState(PlayerIndex, DeadZone);
 
 			// check for controller connects/disconnects
 			if (_previousState.IsConnected != _currentState.IsConnected)
 			{
 				var data = new InputEvent
 				{
-					GamePadIndex = (int) _playerIndex
+					GamePadIndex = (int) PlayerIndex
 				};
 				Input.Emitter.Emit(
 					_currentState.IsConnected ? InputEventType.GamePadConnected : InputEventType.GamePadDisconnected,
@@ -53,7 +53,7 @@ namespace Nez
 			{
 				_rumbleTime -= Time.DeltaTime;
 				if (_rumbleTime <= 0f)
-					GamePad.SetVibration(_playerIndex, 0, 0);
+					GamePad.SetVibration(PlayerIndex, 0, 0);
 			}
 		}
 
@@ -61,13 +61,13 @@ namespace Nez
 		public void SetVibration(float left, float right, float duration)
 		{
 			_rumbleTime = duration;
-			GamePad.SetVibration(_playerIndex, left, right);
+			GamePad.SetVibration(PlayerIndex, left, right);
 		}
 
 
 		public void StopVibration()
 		{
-			GamePad.SetVibration(_playerIndex, 0, 0);
+			GamePad.SetVibration(PlayerIndex, 0, 0);
 			_rumbleTime = 0f;
 		}
 
