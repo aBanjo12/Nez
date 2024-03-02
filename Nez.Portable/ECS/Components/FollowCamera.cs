@@ -59,7 +59,7 @@ namespace Nez
 		/// <summary>
 		/// Contains the width and height of the current map.
 		/// </summary>
-		public Vector2 MapSize;
+		public Rectangle MapSize;
 
 		Entity _targetEntity;
 		Collider _targetCollider;
@@ -145,9 +145,11 @@ namespace Nez
 		Vector2 ClampToMapSize(Vector2 position)
 		{
 			var halfScreen = new Vector2(Camera.Bounds.Width, Camera.Bounds.Height) * 0.5f;
-			var cameraMax = new Vector2(MapSize.X - halfScreen.X, MapSize.Y - halfScreen.Y);
+			var cameraMax = new Vector2(MapSize.Right - halfScreen.X, MapSize.Bottom - halfScreen.Y);
+			var cameraMin = new Vector2(MapSize.X + halfScreen.X, MapSize.Y + halfScreen.Y);
 
-			return Vector2.Clamp(position, halfScreen, cameraMax);
+
+			return Vector2.Clamp(position, cameraMin, cameraMax);
 		}
 
 		public override void DebugRender(Batcher batcher)
