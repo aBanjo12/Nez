@@ -35,26 +35,14 @@ namespace Nez
 
 			if (_screenSpaceDebugDrawItems.Count > 0)
 			{
-				var pos = DrawTextFromBottom ? new Vector2(0, Core.Scene.SceneRenderTargetSize.Y) : Vector2.Zero;
 				Graphics.Instance.Batcher.Begin();
 
 				for (var i = _screenSpaceDebugDrawItems.Count - 1; i >= 0; i--)
 				{
 					var item = _screenSpaceDebugDrawItems[i];
-					var itemHeight = item.GetHeight();
-
-					if (DrawTextFromBottom)
-						item.Position = pos - new Vector2(0, itemHeight);
-					else
-						item.Position = pos;
 
 					if (item.Draw(Graphics.Instance.Batcher))
 						_screenSpaceDebugDrawItems.RemoveAt(i);
-
-					if (DrawTextFromBottom)
-						pos.Y -= itemHeight;
-					else
-						pos.Y += itemHeight;
 				}
 
 				Graphics.Instance.Batcher.End();
@@ -115,7 +103,7 @@ namespace Nez
 			if (!Core.DebugRenderEnabled)
 				return;
 
-			_debugDrawItems.Add(new DebugDrawItem(font, text, position, color, duration, scale));
+			_screenSpaceDebugDrawItems.Add(new DebugDrawItem(font, text, position, color, duration, scale));
 		}
 
 		[Conditional("DEBUG")]
@@ -125,7 +113,7 @@ namespace Nez
 			if (!Core.DebugRenderEnabled)
 				return;
 
-			_debugDrawItems.Add(new DebugDrawItem(font, text, position, color, duration, scale));
+			_screenSpaceDebugDrawItems.Add(new DebugDrawItem(font, text, position, color, duration, scale));
 		}
 
 		[Conditional("DEBUG")]
